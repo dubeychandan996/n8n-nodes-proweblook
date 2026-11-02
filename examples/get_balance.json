@@ -1,0 +1,44 @@
+{
+	"name": "ProWebLook manual get_balance",
+	"nodes": [
+		{
+			"parameters": {},
+			"id": "manual",
+			"name": "Manual Trigger",
+			"type": "n8n-nodes-base.manualTrigger",
+			"typeVersion": 1,
+			"position": [0, 0]
+		},
+		{
+			"parameters": {
+				"operation": "get_balance"
+			},
+			"id": "proweblook",
+			"name": "ProWebLook",
+			"type": "n8n-nodes-proweblook.proWebLook",
+			"typeVersion": 1,
+			"position": [240, 0],
+			"retryOnFail": false,
+			"onError": "stopWorkflow"
+		}
+	],
+	"connections": {
+		"Manual Trigger": {
+			"main": [
+				[
+					{
+						"node": "ProWebLook",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		}
+	},
+	"active": false,
+	"settings": {
+		"executionOrder": "v1"
+	},
+	"pinData": {},
+	"tags": []
+}

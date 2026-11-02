@@ -1,0 +1,53 @@
+# Publishes n8n-nodes-proweblook to npm with GitHub Actions OIDC provenance.
+name: Publish
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+      - "*.*.*"
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Run tests
+        run: npm test
+
+      - name: Verify release metadata and license
+        run: |
+          node -e '
+            const p = require("./package.json");
+            const repoOk = /^(git\+)?https:\/\/github\.com\/dubeychandan996\/n8n-nodes-proweblook(\.git)?$/.test(p.repository?.url || "");
+            const licenseOk = p.license === "MIT" && !require("fs").readFileSync("LICENSE", "utf8").includes("DRAFT");
+            const tagOk = process.env.GITHUB_REF_NAME === `v${p.version}` || process.env.GITHUB_REF_NAME === p.version;
+            if (!repoOk || !licenseOk || !tagOk) {
+              console.error({ repoOk, licenseOk, tagOk, ref: process.env.GITHUB_REF_NAME, version: p.version });
+              process.exit(1);
+            }
+          '
+
+      - name: Release with provenance
+        run: |
+          [ -n "$NPM_TOKEN" ] && npm config set //registry.npmjs.org/:_authToken "$NPM_TOKEN"
+          npm run release
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

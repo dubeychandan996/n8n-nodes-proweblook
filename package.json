@@ -1,0 +1,66 @@
+{
+	"name": "n8n-nodes-proweblook",
+	"version": "0.1.0",
+	"description": "ProWebLook email, phone and WhatsApp validation and product credit balances for n8n",
+	"license": "MIT",
+	"homepage": "https://proweblook.com/",
+	"keywords": [
+		"n8n-community-node-package",
+		"proweblook",
+		"email",
+		"phone",
+		"whatsapp"
+	],
+	"author": {
+		"name": "ProWebLook",
+		"email": "info@proweblook.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/dubeychandan996/n8n-nodes-proweblook.git"
+	},
+	"bugs": {
+		"url": "https://github.com/dubeychandan996/n8n-nodes-proweblook/issues"
+	},
+	"engines": {
+		"node": ">=22.16"
+	},
+	"scripts": {
+		"build": "n8n-node build",
+		"dev": "n8n-node dev",
+		"lint": "n8n-node lint",
+		"lint:fix": "n8n-node lint --fix",
+		"release": "n8n-node release",
+		"test": "npm run build && node --test --test-force-exit tests/*.test.cjs",
+		"test:runtime": "node --test --test-force-exit tests/runtime.test.cjs",
+		"prepublishOnly": "n8n-node prerelease"
+	},
+	"files": [
+		"dist/credentials",
+		"dist/nodes",
+		"examples",
+		"LICENSE",
+		"README.md"
+	],
+	"n8n": {
+		"n8nNodesApiVersion": 1,
+		"strict": true,
+		"credentials": [
+			"dist/credentials/ProWebLookApi.credentials.js"
+		],
+		"nodes": [
+			"dist/nodes/ProWebLook/ProWebLook.node.js"
+		]
+	},
+	"devDependencies": {
+		"@n8n/node-cli": "0.54.6",
+		"eslint": "9.39.4",
+		"n8n-core": "2.16.1",
+		"n8n-workflow": "2.16.0",
+		"prettier": "3.8.3",
+		"typescript": "5.9.3"
+	},
+	"peerDependencies": {
+		"n8n-workflow": "*"
+	}
+}
