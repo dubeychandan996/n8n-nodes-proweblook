@@ -22,6 +22,9 @@
 	"bugs": {
 		"url": "https://github.com/dubeychandan996/n8n-nodes-proweblook/issues"
 	},
+	"publishConfig": {
+		"access": "public"
+	},
 	"engines": {
 		"node": ">=22.16"
 	},
